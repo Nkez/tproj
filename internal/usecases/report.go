@@ -22,16 +22,9 @@ func NewReportService(repo *repositories.ReportRepository) ReportService {
 
 func (s *reportService) GenerateDailyReport(ctx context.Context, date time.Time) (*models.DailyReport, error) {
 	fmt.Println("Generate daily report for date")
-	orders, err := s.repo.GetOrdersByDate(ctx, date)
-	if err != nil {
-		return nil, err
-	}
+	s.repo.GetOrdersByDate(ctx, date)
 
-	fmt.Println("Orders: ", orders)
+	s.repo.UpsertDailyReport(ctx, nil)
 
-	if err := s.repo.UpsertDailyReport(ctx, &models.DailyReport{}); err != nil {
-		return nil, err
-	}
-
-	return &models.DailyReport{}, nil
+	return nil, nil
 }

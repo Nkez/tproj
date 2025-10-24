@@ -22,13 +22,13 @@ func NewReportHandler(report usecases.ReportService) *ReportHandler {
 func (r ReportHandler) GenerateReport(w http.ResponseWriter, req *http.Request) {
 	dateStr := req.URL.Query().Get("date")
 	if dateStr == "" {
-		http.Error(w, "Missing 'date' query parameter (format: 2006-01-02)", http.StatusBadRequest)
+		http.Error(w, "Missing 'date' query parameter (format: 2006-01-02)", http.StatusInternalServerError)
 		return
 	}
 
 	date, err := time.Parse("2006-01-02", dateStr)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("Invalid date format: %v", err), http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("Invalid date format: %v", err), http.StatusInternalServerError)
 		return
 	}
 
